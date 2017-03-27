@@ -1,0 +1,30 @@
+{
+    "name": "nordsoftware/image-manipulation-service",
+    "description": "Simple image manipulation service",
+    "keywords": ["image manipulation", "image manipulation service"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=7.0.0",
+        "ext-gd": "*",
+        "laravel/lumen-framework": "5.4.*",
+        "vlucas/phpdotenv": "~2.2",
+        "league/glide-laravel": "^1.0",
+        "league/flysystem-memory": "^1.0"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "phpunit/phpunit": "~5.0",
+        "mockery/mockery": "~0.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nord\\ImageManipulationService\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    }
+}
