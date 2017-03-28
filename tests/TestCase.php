@@ -1,7 +1,14 @@
 <?php
 
-abstract class TestCase extends Laravel\Lumen\Testing\TestCase
+namespace Nord\ImageManipulationService\Tests;
+
+/**
+ * Class TestCase
+ * @package Nord\ImageManipulationService\Tests
+ */
+abstract class TestCase extends \Laravel\Lumen\Testing\TestCase
 {
+
     /**
      * Creates the application.
      *
@@ -9,6 +16,6 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
      */
     public function createApplication()
     {
-        return require __DIR__.'/../bootstrap/app.php';
+        return require __DIR__ . '/../bootstrap/app.php';
     }
 }

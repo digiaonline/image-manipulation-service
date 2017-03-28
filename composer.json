@@ -23,8 +23,8 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/"
-        ]
+        "psr-4": {
+            "Nord\\ImageManipulationService\\Tests\\": "tests/"
+        }
     }
 }
