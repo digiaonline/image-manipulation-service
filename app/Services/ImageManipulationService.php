@@ -83,8 +83,13 @@ class ImageManipulationService
 
         $filePath = $this->determineFilePath($path, $file);
 
-        $this->getFilesystem()->writeStream($filePath, $stream);
-        fclose($stream);
+        // Try to save the file, re-throw exceptions as ImageUploadException
+        try {
+            $this->getFilesystem()->writeStream($filePath, $stream);
+            fclose($stream);
+        } catch (\Exception $e) {
+            throw new ImageUploadException('Failed to upload image: ' . $e->getMessage(), $e);
+        }
 
         return $filePath;
     }
