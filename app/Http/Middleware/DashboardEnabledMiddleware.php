@@ -4,7 +4,7 @@ namespace Nord\ImageManipulationService\Http\Middleware;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * Class DashboardEnabledMiddleware
@@ -17,7 +17,7 @@ class DashboardEnabledMiddleware
      * @param Request  $request
      * @param \Closure $next
      *
-     * @throws NotFoundHttpException
+     * @throws AccessDeniedHttpException
      * @return Response
      */
     public function handle(Request $request, \Closure $next): Response
@@ -25,7 +25,7 @@ class DashboardEnabledMiddleware
         $dashboardEnabled = env('DASHBOARD_ENABLED', false);
 
         if (!$dashboardEnabled) {
-            throw new NotFoundHttpException();
+            throw new AccessDeniedHttpException();
         }
 
         return $next($request);

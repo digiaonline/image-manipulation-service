@@ -2,11 +2,13 @@
 
 namespace Nord\ImageManipulationService\Exceptions;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 /**
  * Class UnknownPresetException
  * @package Nord\ImageManipulationService\Exceptions
  */
-class UnknownPresetException extends BaseException
+class UnknownPresetException extends NotFoundHttpException
 {
 
     /**

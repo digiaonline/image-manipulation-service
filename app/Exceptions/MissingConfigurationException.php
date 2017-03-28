@@ -6,7 +6,7 @@ namespace Nord\ImageManipulationService\Exceptions;
  * Class MissingConfigurationException
  * @package Nord\ImageManipulationService\Exceptions
  */
-class MissingConfigurationException extends BaseException
+class MissingConfigurationException extends \Exception
 {
 
     /**
