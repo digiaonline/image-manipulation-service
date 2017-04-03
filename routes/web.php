@@ -2,7 +2,7 @@
 
 // Shows the dashboard, if enabled
 $app->get('/', [
-    'middleware' => \Nord\ImageManipulationService\Http\Middleware\DashboardEnabledMiddleware::class,
+    'middleware' => \Nord\ImageManipulationService\Http\Middleware\DashboardPageEnabledMiddleware::class,
     'uses'       => 'DashboardController@dashboard',
 ]);
 

@@ -7,10 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
- * Class DashboardEnabledMiddleware
+ * Class DashboardPageEnabledMiddleware
  * @package Nord\ImageManipulationService\Http\Middleware
  */
-class DashboardEnabledMiddleware
+class DashboardPageEnabledMiddleware
 {
 
     /**
@@ -22,9 +22,9 @@ class DashboardEnabledMiddleware
      */
     public function handle(Request $request, \Closure $next): Response
     {
-        $dashboardEnabled = env('DASHBOARD_ENABLED', false);
+        $dashboardPageEnabled = env('DASHBOARD_PAGE_ENABLED', false);
 
-        if (!$dashboardEnabled) {
+        if (!$dashboardPageEnabled) {
             throw new AccessDeniedHttpException();
         }
 
