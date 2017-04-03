@@ -5,7 +5,6 @@ namespace Nord\ImageManipulationService\Services;
 use League\Glide\Server;
 use Nord\ImageManipulationService\Exceptions\ImageUploadException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -104,30 +103,6 @@ class ImageManipulationService
         }
 
         return $filePath;
-    }
-
-
-    /**
-     * @param string $filePath
-     *
-     * @return JsonResponse
-     */
-    public function getUploadedImageResponse(string $filePath): JsonResponse
-    {
-        $responseData = [
-            'path'    => $filePath,
-            'url'     => route('serveOriginalImage', ['path' => $filePath]),
-            'presets' => [],
-        ];
-
-        foreach ($this->presetService->getPresetNames() as $presetName) {
-            $responseData['presets'][$presetName] = route(
-                'servePresetImage',
-                ['preset' => $presetName, 'path' => $filePath]
-            );
-        }
-
-        return new JsonResponse($responseData);
     }
 
 

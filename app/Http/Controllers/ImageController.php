@@ -2,6 +2,7 @@
 
 namespace Nord\ImageManipulationService\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Nord\ImageManipulationService\Services\ImageManipulationService;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,14 +59,16 @@ class ImageController extends Controller
     /**
      * @param Request $request
      *
-     * @return Response
+     * @return RedirectResponse
      */
-    public function uploadImage(Request $request): Response
+    public function uploadImage(Request $request): RedirectResponse
     {
         $filePath = $this->imageManipulationService->storeUploadedFile($request->file('image'),
             $request->input('path'));
 
-        return $this->imageManipulationService->getUploadedImageResponse($filePath);
+        $imageUrl = route('serveImage', ['path' => $filePath]);
+
+        return new RedirectResponse($imageUrl);
     }
 
 }

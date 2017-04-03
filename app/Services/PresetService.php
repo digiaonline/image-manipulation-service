@@ -29,15 +29,6 @@ class PresetService
 
 
     /**
-     * @return array
-     */
-    public function getPresetNames(): array
-    {
-        return array_keys($this->presets);
-    }
-
-
-    /**
      * @param string $preset
      *
      * @return array
