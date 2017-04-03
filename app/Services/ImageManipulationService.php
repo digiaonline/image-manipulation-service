@@ -2,6 +2,7 @@
 
 namespace Nord\ImageManipulationService\Services;
 
+use League\Flysystem\FilesystemInterface;
 use League\Glide\Server;
 use Nord\ImageManipulationService\Exceptions\ImageUploadException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -146,9 +147,9 @@ class ImageManipulationService
 
 
     /**
-     * @return \League\Flysystem\FilesystemInterface
+     * @return FilesystemInterface
      */
-    private function getFilesystem()
+    private function getFilesystem(): FilesystemInterface
     {
         return $this->glideServer->getSource();
     }
