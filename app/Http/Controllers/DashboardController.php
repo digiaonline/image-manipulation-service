@@ -36,9 +36,16 @@ class DashboardController extends Controller
      */
     public function dashboard(): View
     {
+        $glideConfiguration           = config('glide');
+        $glideConfiguration['source'] = $glideConfiguration['cache'] = 'Not displayed';
+
+        $presetsConfiguration = config('presets');
+
         return view('dashboard.dashboard', [
-            'storedImagesCount' => $this->imageManipulationService->getStoredImagesCount(),
-            'cdnBaseUrl'        => env('CDN_BASEURL', null),
+            'glideConfiguration'   => $glideConfiguration,
+            'presetsConfiguration' => $presetsConfiguration,
+            'storedImagesCount'    => $this->imageManipulationService->getStoredImagesCount(),
+            'cdnBaseUrl'           => env('CDN_BASEURL', null),
         ]);
     }
 

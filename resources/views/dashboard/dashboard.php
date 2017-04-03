@@ -2,6 +2,8 @@
 
 /* @var int $storedImagesCount */
 /* @var string|null $cdnBaseUrl */
+/* @var array $glideConfiguration */
+/* @var array $presetsConfiguration */
 
 ?>
 <!DOCTYPE html>
@@ -50,11 +52,11 @@
     </div>
     <div class="configuration float-left">
       <h3>Glide</h3>
-      <pre><?php print_r(config('glide')); ?></pre>
+      <pre><?php print_r($glideConfiguration); ?></pre>
     </div>
     <div class="configuration float-left">
       <h3>Presets</h3>
-      <pre><?php print_r(config('presets')); ?></pre>
+      <pre><?php print_r($presetsConfiguration); ?></pre>
     </div>
   </div>
 
