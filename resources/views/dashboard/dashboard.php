@@ -6,13 +6,7 @@
 </head>
 <body>
 
-  <h1>Dashboard</h1>
-
-  <p>
-    This is the dashboard
-  </p>
-
-  <h2>Upload an image</h2>
+  <h1>Upload an image</h1>
 
   <p>
     Use this form to upload an image to the service
@@ -20,7 +14,7 @@
 
   <form method="post" action="/upload" enctype="multipart/form-data">
     <p>
-      <label>Prefix: <input type="text" name="path"/></label>
+      <label>Path: <input type="text" name="path"/></label>
     </p>
     <p>
       <label>Image: <input type="file" name="image"/></label>
