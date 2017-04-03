@@ -67,6 +67,18 @@ class ImageManipulationService
 
 
     /**
+     * @param string $path
+     * @param array  $parameters
+     *
+     * @return Response
+     */
+    public function getCustomImageResponse(string $path, array $parameters): Response
+    {
+        return $this->glideServer->getImageResponse($path, $parameters);
+    }
+
+
+    /**
      * @param UploadedFile $file
      * @param string       $path
      *

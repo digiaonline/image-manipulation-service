@@ -6,16 +6,10 @@ $app->get('/', [
     'uses'       => 'DashboardController@dashboard',
 ]);
 
-// Serves images based on the specified path and preset
-$app->get('/preset/{preset}/{path:.*}', [
-    'as'   => 'servePresetImage',
-    'uses' => 'ImageController@servePresetImage',
-]);
-
-// Serves the original image based on the specified path
+// Serves an image
 $app->get('/{path:.*}', [
-    'as'   => 'serveOriginalImage',
-    'uses' => 'ImageController@serveOriginalImage',
+    'as'   => 'serveImage',
+    'uses' => 'ImageController@serveImage',
 ]);
 
 // Stores an uploaded image to the source filesystem, then returns the path to it

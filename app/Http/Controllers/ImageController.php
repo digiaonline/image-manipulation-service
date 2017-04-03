@@ -31,25 +31,27 @@ class ImageController extends Controller
 
 
     /**
-     * @param string $preset
-     * @param string $path
+     * @param Request $request
+     * @param string  $path
      *
      * @return Response
      */
-    public function servePresetImage(string $preset, string $path): Response
+    public function serveImage(Request $request, string $path): Response
     {
-        return $this->imageManipulationService->getPresetImageResponse($path, $preset);
-    }
+        // Handle preset URLs
+        $preset = $request->get('preset');
 
+        if ($preset !== null) {
+            return $this->imageManipulationService->getPresetImageResponse($path, $preset);
+        }
 
-    /**
-     * @param string $path
-     *
-     * @return Response
-     */
-    public function serveOriginalImage(string $path): Response
-    {
-        return $this->imageManipulationService->getOriginalImageResponse($path);
+        // Handle original images
+        if ($request->getQueryString() === null) {
+            return $this->imageManipulationService->getOriginalImageResponse($path);
+        }
+
+        // Handle custom image parameters
+        return $this->imageManipulationService->getCustomImageResponse($path, $_GET);
     }
 
 
