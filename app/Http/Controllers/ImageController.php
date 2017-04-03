@@ -2,6 +2,7 @@
 
 namespace Nord\ImageManipulationService\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Nord\ImageManipulationService\Services\ImageManipulationService;
@@ -28,6 +29,17 @@ class ImageController extends Controller
     public function __construct(ImageManipulationService $imageManipulationService)
     {
         $this->imageManipulationService = $imageManipulationService;
+    }
+
+
+    /**
+     * Shows the upload image page
+     *
+     * @return View
+     */
+    public function index(): View
+    {
+        return view('image.upload');
     }
 
 
