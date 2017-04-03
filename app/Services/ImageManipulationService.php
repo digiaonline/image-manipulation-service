@@ -41,6 +41,15 @@ class ImageManipulationService
 
 
     /**
+     * @return string|null
+     */
+    public function getCdnBaseUrl()
+    {
+        return env('CDN_BASEURL', null);
+    }
+
+
+    /**
      * @param string $path
      * @param string $preset
      *

@@ -11,7 +11,8 @@
         "vlucas/phpdotenv": "~2.2",
         "league/glide-laravel": "^1.0",
         "league/flysystem-memory": "^1.0",
-        "league/flysystem-aws-s3-v3": "^1.0"
+        "league/flysystem-aws-s3-v3": "^1.0",
+        "league/uri": "^5.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
