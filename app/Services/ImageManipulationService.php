@@ -5,6 +5,7 @@ namespace Nord\ImageManipulationService\Services;
 use League\Flysystem\FilesystemInterface;
 use League\Glide\Server;
 use Nord\ImageManipulationService\Exceptions\ImageUploadException;
+use Nord\ImageManipulationService\Helpers\FilePathHelper;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,8 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ImageManipulationService
 {
-
-    const FILENAME_POSTFIX_LENGTH = 5;
 
     /**
      * @var Server
@@ -27,17 +26,24 @@ class ImageManipulationService
      */
     private $presetService;
 
+    /**
+     * @var FilePathHelper
+     */
+    private $filePathHelper;
+
 
     /**
      * ImageManipulationService constructor.
      *
-     * @param Server        $glideServer
-     * @param PresetService $presetService
+     * @param Server         $glideServer
+     * @param PresetService  $presetService
+     * @param FilePathHelper $filePathHelper
      */
-    public function __construct(Server $glideServer, PresetService $presetService)
+    public function __construct(Server $glideServer, PresetService $presetService, FilePathHelper $filePathHelper)
     {
-        $this->glideServer   = $glideServer;
-        $this->presetService = $presetService;
+        $this->glideServer    = $glideServer;
+        $this->presetService  = $presetService;
+        $this->filePathHelper = $filePathHelper;
     }
 
 
@@ -106,7 +112,10 @@ class ImageManipulationService
             throw new ImageUploadException('Failed to open stream to uploaded file');
         }
 
-        $filePath = $this->determineFilePath($path, $file);
+        // Determine the path to the file
+        $filePath = $this->filePathHelper->determineFilePath($path,
+            $file->getClientOriginalName(),
+            $file->getClientOriginalExtension());
 
         // Try to save the file, re-throw exceptions as ImageUploadException
         try {
@@ -130,39 +139,11 @@ class ImageManipulationService
 
 
     /**
-     * @param string       $prefix
-     * @param UploadedFile $file
-     *
-     * @return string
-     */
-    private function determineFilePath(string $prefix, UploadedFile $file): string
-    {
-        $prefix    = trim($prefix, '/');
-        $filename  = $this->getFilenameWithoutExtension($file->getClientOriginalName());
-        $hash      = str_random(self::FILENAME_POSTFIX_LENGTH);
-        $extension = $file->getClientOriginalExtension();
-
-        return "{$prefix}/{$filename}_{$hash}.{$extension}";
-    }
-
-
-    /**
      * @return FilesystemInterface
      */
     private function getFilesystem(): FilesystemInterface
     {
         return $this->glideServer->getSource();
-    }
-
-
-    /**
-     * @param string $filename
-     *
-     * @return string
-     */
-    private function getFilenameWithoutExtension(string $filename): string
-    {
-        return substr($filename, 0, (strrpos($filename, '.')));
     }
 
 }
