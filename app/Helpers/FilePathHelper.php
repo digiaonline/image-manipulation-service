@@ -29,7 +29,12 @@ class FilePathHelper
         $hash      = $this->getRandomPostfix();
         $extension = $clientOriginalExtension;
 
-        return "{$prefix}/{$filename}_{$hash}.{$extension}";
+        // Don't include an empty prefix
+        if (empty($prefix)) {
+            return "{$filename}_{$hash}.{$extension}";
+        } else {
+            return "{$prefix}/{$filename}_{$hash}.{$extension}";
+        }
     }
 
 

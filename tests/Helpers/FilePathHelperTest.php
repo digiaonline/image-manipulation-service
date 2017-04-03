@@ -43,9 +43,9 @@ class FilePathHelperTest extends TestCase
             ['foo/bar', 'image.jpg', 'jpg', 'foo/bar/image_XXXXX.jpg'],
             ['bar/', 'image.png', 'png', 'bar/image_XXXXX.png'],
             ['/bar/', 'image.png', 'png', 'bar/image_XXXXX.png'],
-            ['/', 'image.png', 'png', '/image_XXXXX.png'],
-            ['', 'image.png', 'png', '/image_XXXXX.png'],
-            ['', 'image.zip.jpg', 'png', '/image.zip_XXXXX.png'],
+            ['/', 'image.png', 'png', 'image_XXXXX.png'],
+            ['', 'image.png', 'png', 'image_XXXXX.png'],
+            ['', 'image.zip.jpg', 'png', 'image.zip_XXXXX.png'],
         ];
     }
 
