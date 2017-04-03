@@ -1,21 +1,30 @@
-# Lumen PHP Framework
+# Image manipulation service
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+This is a micro-service that aims to simplify image manipulation logic often needed when developing web applications. 
+Instead of having to perform resizing, cropping and storing of manipulated images an application can use this service 
+to abstract all of that.
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+## Requirements
 
-## Official Documentation
+* PHP >= 7.0 with `ext-gd`
+* Composer
 
-Documentation for the framework can be found on the [Lumen website](http://lumen.laravel.com/docs).
+## Installation
 
-## Security Vulnerabilities
+* Run `composer install` to install all dependencies
+* Copy the files from `examples/config/` to the `config/` directory
+* Edit the configuration to suit your needs. Examples of things you might want to change are where uploaded images get 
+stored.
+ 
+## Architecture
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+1. A user uploads a profile picture to your application
+2. Your application uploads the picture to this service using a `POST` request
+3. The original version gets stored somewhere (either locally on the server, or on S3)
+4. A redirect to the uploaded image is returned after a successful upload.
 
-## License
+The image returned by the service can be manipulated by using query parameters. It is possible to use either a defined 
+preset (e.g. `?preset=foo`) or custom parameters (e.g. `?w=400&h=300`). If no query parameters are specified, the 
+original image is returned.
 
-The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+The service doesn't store manipulated images anywhere, they are always generated on the fly.
