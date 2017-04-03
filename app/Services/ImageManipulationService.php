@@ -116,6 +116,15 @@ class ImageManipulationService
 
 
     /**
+     * @return int
+     */
+    public function getStoredImagesCount(): int
+    {
+        return count($this->getFilesystem()->listContents('/', true));
+    }
+
+
+    /**
      * @param string       $prefix
      * @param UploadedFile $file
      *
