@@ -41,11 +41,15 @@ class ImageManipulationService
 
 
     /**
+     * Returns the CDN base URL if defined, otherwise null
+     *
      * @return string|null
      */
     public function getCdnBaseUrl()
     {
-        return env('CDN_BASEURL', null);
+        $url = env('CDN_BASEURL');
+
+        return !empty($url) ? $url : null;
     }
 
 
