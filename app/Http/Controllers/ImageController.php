@@ -5,7 +5,7 @@ namespace Nord\ImageManipulationService\Http\Controllers;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use League\Uri\Schemes\Http as HttpUri;
+use Nord\ImageManipulationService\Helpers\UriHelper;
 use Nord\ImageManipulationService\Services\ImageManipulationService;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,15 +21,22 @@ class ImageController extends Controller
      */
     private $imageManipulationService;
 
+    /**
+     * @var UriHelper
+     */
+    private $uriHelper;
+
 
     /**
      * ImageController constructor.
      *
      * @param ImageManipulationService $imageManipulationService
+     * @param UriHelper                $uriHelper
      */
-    public function __construct(ImageManipulationService $imageManipulationService)
+    public function __construct(ImageManipulationService $imageManipulationService, UriHelper $uriHelper)
     {
         $this->imageManipulationService = $imageManipulationService;
+        $this->uriHelper                = $uriHelper;
     }
 
 
@@ -84,27 +91,10 @@ class ImageController extends Controller
 
         // Swap the base URL for the CDN's base URL if it is configured
         if ($cdnBaseUrl !== null) {
-            $imageUrl = $this->swapBaseUrl($imageUrl, $cdnBaseUrl);
+            $imageUrl = $this->uriHelper->swapBaseUrl($imageUrl, $cdnBaseUrl);
         }
 
         return new RedirectResponse($imageUrl);
-    }
-
-
-    /**
-     * @param string $originalUrl
-     * @param string $targetBaseUrl
-     *
-     * @return string
-     */
-    private function swapBaseUrl(string $originalUrl, string $targetBaseUrl): string
-    {
-        $originalUri = HttpUri::createFromString($originalUrl);
-        $targetUri   = HttpUri::createFromString($targetBaseUrl);
-
-        return $originalUri->withScheme($targetUri->getScheme())
-                           ->withHost($targetUri->getHost())
-                           ->withPort($targetUri->getPort());
     }
 
 }
