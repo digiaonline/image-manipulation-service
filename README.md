@@ -1,7 +1,7 @@
 # Image manipulation service
 
 [![Build Status](https://travis-ci.org/nordsoftware/image-manipulation-service.svg?branch=master)](https://travis-ci.org/nordsoftware/image-manipulation-service) 
-[![Build Status](https://scrutinizer-ci.com/g/nordsoftware/image-manipulation-service/badges/build.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/image-manipulation-service/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nordsoftware/image-manipulation-service/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/image-manipulation-service/?branch=master)
 
 This is a micro-service that aims to simplify image manipulation logic often needed when developing web applications. 
 Instead of having to perform resizing, cropping and storing of manipulated images an application can use this service 
