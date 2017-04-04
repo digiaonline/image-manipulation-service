@@ -18,10 +18,12 @@ to abstract all of that.
 * Copy the files from `examples/config/` to the `config/` directory
 * Edit the configuration to suit your needs. Examples of things you might want to change are where uploaded images get 
 stored.
+* Copy `.env.example` to `.env`. If you're going to be using Amazon S3 to store your images you should add the missing 
+credentials 
  
 ## Architecture
 
-1. A user uploads a profile picture to your application
+1. A user uploads e.g. a profile picture to your application
 2. Your application uploads the picture to this service using a `POST` request
 3. The original version gets stored somewhere (either locally on the server, or on S3)
 4. A redirect to the uploaded image is returned after a successful upload.
@@ -54,3 +56,5 @@ Here's an example HTML form that fulfills the requirements:
   </p>
 </form>
 ```
+
+If the request succeeds, a temporary redirect to the image URL will be returned.
