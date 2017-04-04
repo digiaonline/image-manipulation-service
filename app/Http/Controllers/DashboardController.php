@@ -39,7 +39,7 @@ class DashboardController extends Controller
         $glideConfiguration           = config('glide');
         $glideConfiguration['source'] = $glideConfiguration['cache'] = 'Not displayed';
 
-        $presetsConfiguration = config('presets');
+        $presetsConfiguration = config('presets', []);
 
         return view('dashboard.dashboard', [
             'glideConfiguration'   => $glideConfiguration,

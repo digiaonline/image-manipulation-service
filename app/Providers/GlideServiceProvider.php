@@ -22,6 +22,11 @@ class GlideServiceProvider extends ServiceProvider
         $this->configure();
 
         $this->app->singleton(Server::class, function() {
+            // Check that the configuration file is supplied at all
+            if (empty(config('glide'))) {
+                throw new MissingConfigurationException('glide.php');
+            }
+
             return ServerFactory::create(config('glide'));
         });
     }
@@ -35,15 +40,6 @@ class GlideServiceProvider extends ServiceProvider
     private function configure()
     {
         app()->configure('glide');
-        app()->configure('presets');
-
-        if (empty(config('glide'))) {
-            throw new MissingConfigurationException('glide.php');
-        }
-        if (empty(config('presets'))) {
-            throw new MissingConfigurationException('presets.php');
-        }
-
     }
 
 }

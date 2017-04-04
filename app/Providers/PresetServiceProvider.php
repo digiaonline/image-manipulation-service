@@ -17,9 +17,20 @@ class PresetServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->configure();
+
         $this->app->singleton(PresetService::class, function() {
             return new PresetService(config('presets', []));
         });
+    }
+
+
+    /**
+     * Configures the service
+     */
+    private function configure()
+    {
+        app()->configure('presets');
     }
 
 }
