@@ -3,6 +3,7 @@
 namespace Nord\ImageManipulationService\Tests\Services;
 
 use Nord\ImageManipulationService\Services\ImageManipulationService;
+use Nord\ImageManipulationService\Tests\NeedsGlideConfiguration;
 use Nord\ImageManipulationService\Tests\TestCase;
 
 /**
@@ -11,6 +12,8 @@ use Nord\ImageManipulationService\Tests\TestCase;
  */
 class ImageManipulationServiceTest extends TestCase
 {
+
+    use NeedsGlideConfiguration;
 
     /**
      * @var ImageManipulationService
@@ -24,6 +27,8 @@ class ImageManipulationServiceTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->configureGlide();
 
         $this->imageManipulationService = $this->app->make(ImageManipulationService::class);
     }

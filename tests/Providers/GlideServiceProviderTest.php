@@ -3,6 +3,7 @@
 namespace Nord\ImageManipulationService\Tests\Providers;
 
 use League\Glide\Server;
+use Nord\ImageManipulationService\Tests\NeedsGlideConfiguration;
 use Nord\ImageManipulationService\Tests\TestCase;
 
 /**
@@ -11,6 +12,9 @@ use Nord\ImageManipulationService\Tests\TestCase;
  */
 class GlideServiceProviderTest extends TestCase
 {
+
+    use NeedsGlideConfiguration;
+
 
     /**
      * @expectedException \Nord\ImageManipulationService\Exceptions\MissingConfigurationException
@@ -30,6 +34,8 @@ class GlideServiceProviderTest extends TestCase
      */
     public function testRegister()
     {
+        $this->configureGlide();
+
         $this->assertInstanceOf(Server::class, $this->app->make(Server::class));
     }
 
