@@ -28,3 +28,26 @@ preset (e.g. `?preset=foo`) or custom parameters (e.g. `?w=400&h=300`). If no qu
 original image is returned.
 
 The service doesn't store manipulated images anywhere, they are always generated on the fly.
+
+## Usage
+
+To upload a new image through the service, make a `POST` request to `/upload`. The request should the following:
+
+* A `path` field containing an optional path for the file (e.g. `articles/summer`)
+* An `image` file field containing the image to be uploaded
+
+Here's an example HTML form that fulfills the requirements:
+
+```html
+<form method="post" action="/upload" enctype="multipart/form-data">
+  <p>
+    <label>Path: <input type="text" name="path"/></label>
+  </p>
+  <p>
+    <label>Image: <input type="file" name="image"/></label>
+  </p>
+  <p>
+    <input type="submit" name="submit" value="Upload image"/>
+  </p>
+</form>
+```
