@@ -83,8 +83,8 @@ class ImageController extends Controller
      */
     public function uploadImage(Request $request): RedirectResponse
     {
-        $filePath = $this->imageManipulationService->storeUploadedFile($request->file('image'),
-            $request->input('path'));
+        $pathPrefix = $request->input('path', '');
+        $filePath   = $this->imageManipulationService->storeUploadedFile($request->file('image'), $pathPrefix);
 
         $imageUrl   = route('serveImage', ['path' => $filePath]);
         $cdnBaseUrl = $this->imageManipulationService->getCdnBaseUrl();
