@@ -1,0 +1,38 @@
+{
+	"variables": [],
+	"info": {
+		"name": "image-manipulation-service",
+		"_postman_id": "c78bfdd0-d2c1-00d3-bb9c-d821702f80d8",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/upload",
+			"request": {
+				"url": "{{baseUrl}}/upload",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "path",
+							"value": "foo/bar",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "image",
+							"value": "",
+							"type": "file",
+							"enabled": true
+						}
+					]
+				},
+				"description": "Upload a new image file to the service"
+			},
+			"response": []
+		}
+	]
+}

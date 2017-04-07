@@ -58,3 +58,8 @@ Here's an example HTML form that fulfills the requirements:
 ```
 
 If the request succeeds, a temporary redirect to the image URL will be returned.
+
+You can also use the supplied Postman collection to test image upload requests. Just import the collection and add the 
+following variables to your environment:
+
+* `baseUrl` the base URL to the service, e.g. `http://image-manipulation-service.example.com`
