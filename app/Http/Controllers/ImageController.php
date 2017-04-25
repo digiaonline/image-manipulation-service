@@ -81,7 +81,7 @@ class ImageController extends Controller
      *
      * @return RedirectResponse
      */
-    public function uploadImage(Request $request): RedirectResponse
+    public function uploadImageFromFile(Request $request): RedirectResponse
     {
         $pathPrefix = $request->input('path', '');
         $filePath   = $this->imageManipulationService->storeUploadedFile($request->file('image'), $pathPrefix);

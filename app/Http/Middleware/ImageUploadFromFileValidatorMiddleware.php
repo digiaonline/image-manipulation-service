@@ -7,10 +7,10 @@ use Nord\ImageManipulationService\Exceptions\ImageUploadException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class ImageUploadValidatorMiddleware
+ * Class ImageUploadFromFileValidatorMiddleware
  * @package Nord\ImageManipulationService\Http\Middleware
  */
-class ImageUploadValidatorMiddleware
+class ImageUploadFromFileValidatorMiddleware
 {
 
     /**

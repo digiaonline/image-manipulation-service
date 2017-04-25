@@ -20,6 +20,6 @@ $app->get('/{path:.*}', [
 
 // Stores an uploaded image to the source filesystem, then returns the path to it
 $app->post('/upload', [
-    'middleware' => \Nord\ImageManipulationService\Http\Middleware\ImageUploadValidatorMiddleware::class,
-    'uses'       => 'ImageController@uploadImage',
+    'middleware' => \Nord\ImageManipulationService\Http\Middleware\ImageUploadFromFileValidatorMiddleware::class,
+    'uses'       => 'ImageController@uploadImageFromFile',
 ]);
