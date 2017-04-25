@@ -39,6 +39,19 @@ class FilePathHelper
 
 
     /**
+     * @param string $filename
+     *
+     * @return string
+     */
+    public function getFileExtension(string $filename): string
+    {
+        $pathInfo = pathinfo($filename);
+
+        return isset($pathInfo['extension']) ? $pathInfo['extension'] : '';
+    }
+
+
+    /**
      * @return string
      */
     protected function getRandomPostfix(): string

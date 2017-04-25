@@ -86,6 +86,34 @@ class ImageController extends Controller
         $pathPrefix = $request->input('path', '');
         $filePath   = $this->imageManipulationService->storeUploadedFile($request->file('image'), $pathPrefix);
 
+        return $this->getRedirectResponse($filePath);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     */
+    public function uploadImageFromUrl(Request $request): RedirectResponse
+    {
+        $pathPrefix = $request->input('path', '');
+        $imageUrl   = $request->get('url');
+        $filename   = $this->uriHelper->getFilename($imageUrl);
+
+        $filePath = $this->imageManipulationService->storeUrlFile($imageUrl, $pathPrefix, $filename);
+
+        return $this->getRedirectResponse($filePath);
+    }
+
+
+    /**
+     * @param string $filePath
+     *
+     * @return RedirectResponse
+     */
+    private function getRedirectResponse(string $filePath): RedirectResponse
+    {
         $imageUrl   = route('serveImage', ['path' => $filePath]);
         $cdnBaseUrl = $this->imageManipulationService->getCdnBaseUrl();
 

@@ -2,6 +2,7 @@
 
 namespace Nord\ImageManipulationService\Providers;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application;
 use League\Glide\Server;
@@ -25,7 +26,8 @@ class ImageManipulationServiceProvider extends ServiceProvider
             return new ImageManipulationService(
                 $app->make(Server::class),
                 $app->make(PresetService::class),
-                $app->make(FilePathHelper::class));
+                $app->make(FilePathHelper::class),
+                new Client());
         });
     }
 

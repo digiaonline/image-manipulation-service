@@ -2,6 +2,7 @@
 
 namespace Nord\ImageManipulationService\Services;
 
+use GuzzleHttp\Client as GuzzleClient;
 use League\Flysystem\FilesystemInterface;
 use League\Glide\Server;
 use Nord\ImageManipulationService\Exceptions\ImageUploadException;
@@ -31,6 +32,11 @@ class ImageManipulationService
      */
     private $filePathHelper;
 
+    /**
+     * @var GuzzleClient
+     */
+    private $guzzleClient;
+
 
     /**
      * ImageManipulationService constructor.
@@ -38,12 +44,18 @@ class ImageManipulationService
      * @param Server         $glideServer
      * @param PresetService  $presetService
      * @param FilePathHelper $filePathHelper
+     * @param GuzzleClient   $guzzleClient
      */
-    public function __construct(Server $glideServer, PresetService $presetService, FilePathHelper $filePathHelper)
-    {
+    public function __construct(
+        Server $glideServer,
+        PresetService $presetService,
+        FilePathHelper $filePathHelper,
+        GuzzleClient $guzzleClient
+    ) {
         $this->glideServer    = $glideServer;
         $this->presetService  = $presetService;
         $this->filePathHelper = $filePathHelper;
+        $this->guzzleClient   = $guzzleClient;
     }
 
 
@@ -98,6 +110,8 @@ class ImageManipulationService
 
 
     /**
+     * Stores the uploaded file with the specified path. The filename and extension is taken from the uploaded file.
+     *
      * @param UploadedFile $file
      * @param string       $path
      *
@@ -106,24 +120,42 @@ class ImageManipulationService
      */
     public function storeUploadedFile(UploadedFile $file, string $path): string
     {
-        $stream = fopen($file->getRealPath(), 'r+');
-
-        if ($stream === false) {
-            throw new ImageUploadException('Failed to open stream to uploaded file');
-        }
+        // Get stream to the file contents
+        $stream = $this->getStreamFromFile($file->getRealPath());
 
         // Determine the path to the file
         $filePath = $this->filePathHelper->determineFilePath($path,
             $file->getClientOriginalName(),
             $file->getClientOriginalExtension());
 
-        // Try to save the file, re-throw exceptions as ImageUploadException
-        try {
-            $this->getFilesystem()->writeStream($filePath, $stream);
-            fclose($stream);
-        } catch (\Exception $e) {
-            throw new ImageUploadException('Failed to upload image: ' . $e->getMessage(), $e);
-        }
+        // Store
+        $this->storeFileFromStream($filePath, $stream);
+
+        return $filePath;
+    }
+
+
+    /**
+     * Stores the file from the specified URL, using the specified path and filename
+     *
+     * @param string $url
+     * @param string $path
+     * @param string $filename
+     *
+     * @return string
+     */
+    public function storeUrlFile($url, string $path, string $filename): string
+    {
+        // Get stream to the file contents
+        $stream = $this->getStreamFromUrl($url);
+
+        // Determine the path to the file
+        $filePath = $this->filePathHelper->determineFilePath($path,
+            $filename,
+            $this->filePathHelper->getFileExtension($filename));
+
+        // Store
+        $this->storeFileFromStream($filePath, $stream);
 
         return $filePath;
     }
@@ -144,6 +176,68 @@ class ImageManipulationService
     private function getFilesystem(): FilesystemInterface
     {
         return $this->glideServer->getSource();
+    }
+
+
+    /**
+     * Attempts to open a resource to the file at the specified path
+     *
+     * @param string $filePath
+     *
+     * @return resource
+     *
+     * @throws ImageUploadException
+     */
+    private function getStreamFromFile(string $filePath)
+    {
+        $stream = fopen($filePath, 'r+');
+
+        if ($stream === false) {
+            throw new ImageUploadException('Failed to open stream to uploaded file');
+        }
+
+        return $stream;
+    }
+
+
+    /**
+     * Attempts to grab the contents of the specified URL and return it as a stream resource
+     *
+     * @param string $url
+     *
+     * @return resource
+     *
+     * @throws ImageUploadException
+     */
+    private function getStreamFromUrl(string $url)
+    {
+        // Try to grab the response body stream as a resource
+        try {
+            $response = $this->guzzleClient->get($url);
+
+            return $response->getBody()->detach();
+        } catch (\Exception $e) {
+            throw new ImageUploadException('Failed to retrieve image from URL: ' . $e->getMessage(), $e);
+        }
+    }
+
+
+    /**
+     * Attempts to store the specified stream as a file at the specified file path
+     *
+     * @param string   $filePath
+     * @param resource $stream
+     *
+     * @throws ImageUploadException
+     */
+    private function storeFileFromStream(string $filePath, $stream)
+    {
+        try {
+            $this->getFilesystem()->writeStream($filePath, $stream);
+            fclose($stream);
+        } catch (\Exception $e) {
+            throw new ImageUploadException('Failed to upload image: ' . $e->getMessage(), $e);
+        }
     }
 
 }

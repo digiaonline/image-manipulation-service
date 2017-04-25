@@ -23,3 +23,8 @@ $app->post('/upload', [
     'middleware' => \Nord\ImageManipulationService\Http\Middleware\ImageUploadFromFileValidatorMiddleware::class,
     'uses'       => 'ImageController@uploadImageFromFile',
 ]);
+
+$app->post('/uploadFromUrl', [
+    'middleware' => \Nord\ImageManipulationService\Http\Middleware\ImageUploadFromUrlValidatorMiddleware::class,
+    'uses'       => 'ImageController@uploadImageFromUrl',
+]);

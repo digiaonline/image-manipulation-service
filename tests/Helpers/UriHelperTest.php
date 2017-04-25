@@ -19,7 +19,7 @@ class UriHelperTest extends TestCase
      * @param $targetBaseUrl
      * @param $expectedUrl
      *
-     * @dataProvider dataProvider
+     * @dataProvider swapBaseUrlDataProvider
      *
      */
     public function testSwapBaseUrl($originalUrl, $targetBaseUrl, $expectedUrl)
@@ -31,9 +31,23 @@ class UriHelperTest extends TestCase
 
 
     /**
+     * @param string $url
+     * @param string $expectedFilename
+     *
+     * @dataProvider getFilenameDataProvider
+     */
+    public function testGetFilename(string $url, string $expectedFilename)
+    {
+        $uriHelper = new UriHelper();
+
+        $this->assertEquals($expectedFilename, $uriHelper->getFilename($url));
+    }
+
+
+    /**
      * @return array
      */
-    public function dataProvider()
+    public function swapBaseUrlDataProvider()
     {
         return [
             ['http://localhost/foo/bar/test.jpg', 'http://www.example.com', 'http://www.example.com/foo/bar/test.jpg'],
@@ -47,6 +61,21 @@ class UriHelperTest extends TestCase
                 'https://www.example.com',
                 'https://www.example.com/foo/bar/test.jpg',
             ],
+        ];
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getFilenameDataProvider()
+    {
+        return [
+            ['http://example.com/foo/bar/baz.jpg', 'baz.jpg'],
+            ['http://example.com/foo/baz.jpg', 'baz.jpg'],
+            ['http://example.com/baz.jpg', 'baz.jpg'],
+            ['http://example.com//baz.jpg', 'baz.jpg'],
+            ['http://example.com/', ''],
         ];
     }
 

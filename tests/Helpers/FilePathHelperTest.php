@@ -18,7 +18,7 @@ class FilePathHelperTest extends TestCase
      * @param string $clientOriginalExtension
      * @param string $expectedPath
      *
-     * @dataProvider dataProvider
+     * @dataProvider determineFilePathDataProvider
      */
     public function testDetermineFilePath(
         string $prefix,
@@ -35,9 +35,25 @@ class FilePathHelperTest extends TestCase
 
 
     /**
-     * Data provider for testDetermineFilePath
+     * @param string $filename
+     * @param string $expectedExtension
+     *
+     * @dataProvider getFileExtensionDataProvider
      */
-    public function dataProvider()
+    public function testGetFileExtension(string $filename, string $expectedExtension)
+    {
+        $filePathHelper = new FilePathHelper();
+
+        $this->assertEquals($expectedExtension, $filePathHelper->getFileExtension($filename));
+    }
+
+
+    /**
+     * Data provider for testDetermineFilePath
+     *
+     * @return array
+     */
+    public function determineFilePathDataProvider()
     {
         return [
             ['foo/bar', 'image.jpg', 'jpg', 'foo/bar/image_XXXXX.jpg'],
@@ -46,6 +62,21 @@ class FilePathHelperTest extends TestCase
             ['/', 'image.png', 'png', 'image_XXXXX.png'],
             ['', 'image.png', 'png', 'image_XXXXX.png'],
             ['', 'image.zip.jpg', 'png', 'image.zip_XXXXX.png'],
+        ];
+    }
+
+
+    /**
+     * Data provider for testGetFileExtension
+     *
+     * @return array
+     */
+    public function getFileExtensionDataProvider()
+    {
+        return [
+            ['image.jpg', 'jpg'],
+            ['image.jpg.zip', 'zip'],
+            ['image', ''],
         ];
     }
 

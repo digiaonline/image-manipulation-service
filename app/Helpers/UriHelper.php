@@ -27,4 +27,20 @@ class UriHelper
                            ->withPort($targetUri->getPort());
     }
 
+
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    public function getFilename(string $url): string
+    {
+        $uri = HttpUri::createFromString($url);
+
+        $path  = $uri->getPath();
+        $parts = explode('/', $path);
+
+        return end($parts);
+    }
+
 }
