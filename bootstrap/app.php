@@ -52,10 +52,6 @@ $app->singleton(
 |
 */
 
-$app->routeMiddleware([
-    'imageUpload' => \Nord\ImageManipulationService\Http\Middleware\ImageUploadValidatorMiddleware::class,
-]);
-
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
