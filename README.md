@@ -63,3 +63,13 @@ You can also use the supplied Postman collection to test image upload requests. 
 following variables to your environment:
 
 * `baseUrl` the base URL to the service, e.g. `http://image-manipulation-service.example.com`
+
+## Development
+
+You can easily test the service by running `php -S localhost:8080 -t public/ public/index.php` from the project root 
+directory and browsing to `http://localhost:8080/`.
+
+### Testing
+
+You can run the tests by running `vendor/bin/phpunit`. If you have XDebug installed you can see the code coverage 
+report on by opening `public/coverage/index.html` locally in your browser.
