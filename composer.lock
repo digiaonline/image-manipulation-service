@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e03e9b611ae41f68ae8c7e689c37ca2",
+    "content-hash": "1a03f808c4ceb0f37288dddd4f9349db",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -2174,16 +2174,16 @@
         },
         {
             "name": "league/uri-parser",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri-parser.git",
-                "reference": "86d0d40761bd43dc31b8e47ee5035abbe9a90e33"
+                "reference": "2b756258c42f489eec5b89bf4030065070ee685b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri-parser/zipball/86d0d40761bd43dc31b8e47ee5035abbe9a90e33",
-                "reference": "86d0d40761bd43dc31b8e47ee5035abbe9a90e33",
+                "url": "https://api.github.com/repos/thephpleague/uri-parser/zipball/2b756258c42f489eec5b89bf4030065070ee685b",
+                "reference": "2b756258c42f489eec5b89bf4030065070ee685b",
                 "shasum": ""
             },
             "require": {
@@ -2229,7 +2229,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2017-03-01T10:38:20+00:00"
+            "time": "2017-04-19T07:41:41+00:00"
         },
         {
             "name": "league/uri-schemes",
@@ -3456,12 +3456,12 @@
             "version": "0.9.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/padraic/mockery.git",
+                "url": "https://github.com/mockery/mockery.git",
                 "reference": "6fdb61243844dc924071d3404bb23994ea0b6856"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/6fdb61243844dc924071d3404bb23994ea0b6856",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/6fdb61243844dc924071d3404bb23994ea0b6856",
                 "reference": "6fdb61243844dc924071d3404bb23994ea0b6856",
                 "shasum": ""
             },

@@ -3,15 +3,15 @@
 namespace Nord\ImageManipulationService\Tests\Http\Middleware;
 
 use Illuminate\Http\Request;
-use Nord\ImageManipulationService\Http\Middleware\ImageUploadValidatorMiddleware;
+use Nord\ImageManipulationService\Http\Middleware\ImageUploadFromFileValidatorMiddleware;
 use Nord\ImageManipulationService\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * Class ImageUploadValidatorMiddlewareTest
+ * Class ImageUploadFromFileValidatorMiddlewareTest
  * @package Nord\ImageManipulationService\Tests\Http\Middleware
  */
-class ImageUploadValidatorMiddlewareTest extends TestCase
+class ImageUploadFromFileValidatorMiddlewareTest extends TestCase
 {
 
     /**
@@ -20,7 +20,7 @@ class ImageUploadValidatorMiddlewareTest extends TestCase
      */
     public function testMissingFile()
     {
-        $middleware = new ImageUploadValidatorMiddleware();
+        $middleware = new ImageUploadFromFileValidatorMiddleware();
         $request    = new Request();
 
         $middleware->handle($request, function() {
@@ -35,7 +35,7 @@ class ImageUploadValidatorMiddlewareTest extends TestCase
      */
     public function testInvalidFile()
     {
-        $middleware = new ImageUploadValidatorMiddleware();
+        $middleware = new ImageUploadFromFileValidatorMiddleware();
         $request    = new Request();
         $request->files->add([
             'image' => $this->getFailedUploadedFile(),

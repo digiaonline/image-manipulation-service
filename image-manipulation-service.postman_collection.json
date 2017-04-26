@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "image-manipulation-service",
-		"_postman_id": "c78bfdd0-d2c1-00d3-bb9c-d821702f80d8",
+		"_postman_id": "417536ba-5db0-f6ff-68ec-68e790c1831c",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -31,6 +31,33 @@
 					]
 				},
 				"description": "Upload a new image file to the service"
+			},
+			"response": []
+		},
+		{
+			"name": "/uploadFromUrl",
+			"request": {
+				"url": "{{baseUrl}}/uploadFromUrl",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "path",
+							"value": "foo/bar",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "url",
+							"value": "https://images.pexels.com/photos/218971/pexels-photo-218971.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": "Upload an image to the service using a URL to the image"
 			},
 			"response": []
 		}

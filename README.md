@@ -36,6 +36,13 @@ The service doesn't store manipulated images anywhere, they are always generated
 
 ## Usage
 
+There are two ways to upload an image to the service:
+
+* By uploading an image file
+* By specifying a URL to an image 
+
+### Uploading an image file
+
 To upload a new image through the service, make a `POST` request to `/upload`. The request should look like the 
 following:
 
@@ -60,7 +67,29 @@ Here's an example HTML form that fulfills the requirements:
 
 If the request succeeds, a temporary redirect to the image URL will be returned.
 
+### Specifying a URL to an image
 
+To upload an image to the service this way, make a `POST` request to `/uploadFromUrl`. The request should look like the 
+following:
+
+* A `path` field containing an optional path for the file (e.g. `articles/summer`)
+* A `url` field containing the URL to the image
+
+Here's an example HTML form that fulfills the requirements:
+
+```html
+<form method="post" action="/upload">
+  <p>
+    <label>Path: <input type="text" name="path"/></label>
+  </p>
+  <p>
+    <label>Image: <input type="file" name="image"/></label>
+  </p>
+  <p>
+    <input type="submit" name="submit" value="Upload image"/>
+  </p>
+</form>
+```
 
 ## Development
 
