@@ -36,7 +36,8 @@ The service doesn't store manipulated images anywhere, they are always generated
 
 ## Usage
 
-To upload a new image through the service, make a `POST` request to `/upload`. The request should the following:
+To upload a new image through the service, make a `POST` request to `/upload`. The request should look like the 
+following:
 
 * A `path` field containing an optional path for the file (e.g. `articles/summer`)
 * An `image` file field containing the image to be uploaded
