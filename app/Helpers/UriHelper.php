@@ -2,6 +2,8 @@
 
 namespace Nord\ImageManipulationService\Helpers;
 
+use League\Uri\Exception as UriException;
+use League\Uri\Parser;
 use League\Uri\Schemes\Http as HttpUri;
 
 /**
@@ -41,6 +43,18 @@ class UriHelper
         $parts = explode('/', $path);
 
         return end($parts);
+    }
+
+
+    /**
+     * @param string $url
+     *
+     * @throws UriException if the URL cannot be parsed
+     */
+    public function tryParse(string $url)
+    {
+        $parser = new Parser();
+        $parser($url);
     }
 
 }

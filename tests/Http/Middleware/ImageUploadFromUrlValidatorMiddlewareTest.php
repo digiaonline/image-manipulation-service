@@ -25,7 +25,7 @@ class ImageUploadFromUrlValidatorMiddlewareTest extends TestCase
             'url' => 'http://example.com',
         ]);
 
-        $middleware = new ImageUploadFromUrlValidatorMiddleware();
+        $middleware = $this->getMiddlewareInstance();
         $middleware->handle($request, function() {
             return new SymfonyResponse();
         });
@@ -34,13 +34,42 @@ class ImageUploadFromUrlValidatorMiddlewareTest extends TestCase
 
     /**
      * @expectedException \Nord\ImageManipulationService\Exceptions\ImageUploadException
+     * @expectedExceptionMessage No image URL specified
      */
-    public function testMiddlewareFails()
+    public function testMissingUrl()
     {
-        $middleware = new ImageUploadFromUrlValidatorMiddleware();
+        $middleware = $this->getMiddlewareInstance();
         $middleware->handle(new Request(), function() {
 
         });
+    }
+
+
+    /**
+     * @expectedException \Nord\ImageManipulationService\Exceptions\ImageUploadException
+     * @expectedExceptionMessageRegExp *The specified URL could not be parsed*
+     */
+    public function testInvalidUrl()
+    {
+        $request = new Request();
+        $request->setMethod('POST');
+        $request->request->add([
+            'url' => '{"url: "http://example.com", just invalid /"',
+        ]);
+
+        $middleware = $this->getMiddlewareInstance();
+        $middleware->handle($request, function() {
+
+        });
+    }
+
+
+    /**
+     * @return ImageUploadFromUrlValidatorMiddleware
+     */
+    private function getMiddlewareInstance(): ImageUploadFromUrlValidatorMiddleware
+    {
+        return $this->app->make(ImageUploadFromUrlValidatorMiddleware::class);
     }
 
 }
