@@ -2,16 +2,14 @@
 
 namespace Nord\ImageManipulationService\Tests\Http\Middleware;
 
+use Illuminate\Http\Request;
 use Nord\ImageManipulationService\Http\Middleware\UploadPageEnabledMiddleware;
-use Nord\ImageManipulationService\Tests\TestCase;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UploadPageEnabledMiddlewareTest
  * @package Nord\ImageManipulationService\Tests\Http\Middleware
  */
-class UploadPageEnabledMiddlewareTest extends TestCase
+class UploadPageEnabledMiddlewareTest extends MiddlewareTestCase
 {
 
     /**
@@ -36,11 +34,7 @@ class UploadPageEnabledMiddlewareTest extends TestCase
         putenv('UPLOAD_PAGE_ENABLED=true');
 
         $middleware = new UploadPageEnabledMiddleware();
-        $response   = $middleware->handle(new Request(), function() {
-            return new Response();
-        });
-
-        $this->assertInstanceOf(Response::class, $response);
+        $this->assertMiddlewarePassed(new Request(), $middleware);
     }
 
 }

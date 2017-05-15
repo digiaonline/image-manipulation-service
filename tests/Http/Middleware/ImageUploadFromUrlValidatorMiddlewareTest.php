@@ -4,14 +4,12 @@ namespace Nord\ImageManipulationService\Tests\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Nord\ImageManipulationService\Http\Middleware\ImageUploadFromUrlValidatorMiddleware;
-use Nord\ImageManipulationService\Tests\TestCase;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 /**
  * Class ImageUploadFromUrlValidatorMiddlewareTest
  * @package Nord\ImageManipulationService\Tests\Http\Middleware
  */
-class ImageUploadFromUrlValidatorMiddlewareTest extends TestCase
+class ImageUploadFromUrlValidatorMiddlewareTest extends MiddlewareTestCase
 {
 
     /**
@@ -26,9 +24,7 @@ class ImageUploadFromUrlValidatorMiddlewareTest extends TestCase
         ]);
 
         $middleware = $this->getMiddlewareInstance();
-        $middleware->handle($request, function() {
-            return new SymfonyResponse();
-        });
+        $this->assertMiddlewarePassed($request, $middleware);
     }
 
 
