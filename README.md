@@ -91,6 +91,17 @@ Here's an example HTML form that fulfills the requirements:
 </form>
 ```
 
+### Authenticating upload requests
+
+By default the service allows anyone to upload images. You can restrict this by configuring a username and 
+password in your `.env` file and enabling upload authentication:
+
+```
+UPLOAD_AUTHENTICATION_ENABLED=true
+UPLOAD_USERNAME=username
+UPLOAD_PASSWORD=password
+```
+
 ## Development
 
 You can easily test the service by running `php -S localhost:8080 -t public/ public/index.php` from the project root 
