@@ -31,12 +31,14 @@ class FilePathHelper
 
         // Don't include an empty prefix
         if (empty($prefix)) {
-            return "{$filename}_{$hash}.{$extension}";
+            $basePath = "{$filename}_{$hash}";
         } else {
-            return "{$prefix}/{$filename}_{$hash}.{$extension}";
+            $basePath = "{$prefix}/{$filename}_{$hash}";
         }
-    }
 
+        // Add the extension when available
+        return empty($extension) ? $basePath : "{$basePath}.{$extension}";
+    }
 
     /**
      * @param string $filename
@@ -67,7 +69,9 @@ class FilePathHelper
      */
     private function getFilenameWithoutExtension(string $filename): string
     {
-        return substr($filename, 0, (strrpos($filename, '.')));
+        $position = strrpos($filename, '.');
+
+        return $position === false ? $filename : substr($filename, 0, $position);
     }
 
 }
