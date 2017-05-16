@@ -63,6 +63,7 @@ $app->singleton(
 |
 */
 
+$app->register(Nord\ImageManipulationService\Providers\AppServiceProvider::class);
 $app->register(Nord\ImageManipulationService\Providers\GlideServiceProvider::class);
 $app->register(Nord\ImageManipulationService\Providers\ImageManipulationServiceProvider::class);
 $app->register(Nord\ImageManipulationService\Providers\PresetServiceProvider::class);

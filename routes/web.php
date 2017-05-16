@@ -14,8 +14,9 @@ $app->get('/upload', [
 
 // Serves an image
 $app->get('/{path:.*}', [
-    'as'   => 'serveImage',
-    'uses' => 'ImageController@serveImage',
+    'as'         => 'serveImage',
+    'middleware' => \Nord\ImageManipulationService\Http\Middleware\ServeImageAuthenticationMiddleware::class,
+    'uses'       => 'ImageController@serveImage',
 ]);
 
 // Stores an uploaded image to the source filesystem, then returns the path to it
