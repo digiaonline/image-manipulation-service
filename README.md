@@ -102,6 +102,24 @@ UPLOAD_USERNAME=username
 UPLOAD_PASSWORD=password
 ```
 
+### Authenticating image retrieval requests
+
+If you have placed a CDN in front of the service, you may want to restrict image retrieval access to just the CDN. 
+This can be done by specifying a list of required custom headers that must be present in requests.
+
+The required headers are configured in `config/app.php`, like this:
+
+```php
+<?php
+
+return [
+    // Request headers that must be present when requesting images
+    'required_custom_headers' => [
+        'X-Cdn-Authentication' => 'some secret value',
+    ],
+];
+```
+
 ## Development
 
 You can easily test the service by running `php -S localhost:8080 -t public/ public/index.php` from the project root 
