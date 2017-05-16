@@ -4,4 +4,5 @@
 /config
 .vagrant
 Vagrantfile
+composer.phar
 /public/coverage

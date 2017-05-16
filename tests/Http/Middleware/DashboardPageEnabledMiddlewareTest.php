@@ -2,16 +2,14 @@
 
 namespace Nord\ImageManipulationService\Tests\Http\Middleware;
 
+use Illuminate\Http\Request;
 use Nord\ImageManipulationService\Http\Middleware\DashboardPageEnabledMiddleware;
-use Nord\ImageManipulationService\Tests\TestCase;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class DashboardPageEnabledMiddlewareTest
  * @package Nord\ImageManipulationService\Tests\Http\Middleware
  */
-class DashboardPageEnabledMiddlewareTest extends TestCase
+class DashboardPageEnabledMiddlewareTest extends MiddlewareTestCase
 {
 
     /**
@@ -36,11 +34,7 @@ class DashboardPageEnabledMiddlewareTest extends TestCase
         putenv('DASHBOARD_PAGE_ENABLED=true');
 
         $middleware = new DashboardPageEnabledMiddleware();
-        $response   = $middleware->handle(new Request(), function() {
-            return new Response();
-        });
-
-        $this->assertInstanceOf(Response::class, $response);
+        $this->assertMiddlewarePassed(new Request(), $middleware);
     }
 
 }
