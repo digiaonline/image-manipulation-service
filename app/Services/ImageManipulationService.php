@@ -7,6 +7,7 @@ use League\Flysystem\FilesystemInterface;
 use League\Glide\Server;
 use Nord\ImageManipulationService\Exceptions\ImageUploadException;
 use Nord\ImageManipulationService\Helpers\FilePathHelper;
+use Nord\ImageManipulationService\Helpers\MimeTypeHelper;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,6 +38,11 @@ class ImageManipulationService
      */
     private $guzzleClient;
 
+    /**
+     * @var MimeTypeHelper
+     */
+    private $mimeTypeHelper;
+
 
     /**
      * ImageManipulationService constructor.
@@ -45,17 +51,20 @@ class ImageManipulationService
      * @param PresetService  $presetService
      * @param FilePathHelper $filePathHelper
      * @param GuzzleClient   $guzzleClient
+     * @param MimeTypeHelper $mimeTypeHelper
      */
     public function __construct(
         Server $glideServer,
         PresetService $presetService,
         FilePathHelper $filePathHelper,
-        GuzzleClient $guzzleClient
+        GuzzleClient $guzzleClient,
+        MimeTypeHelper $mimeTypeHelper
     ) {
         $this->glideServer    = $glideServer;
         $this->presetService  = $presetService;
         $this->filePathHelper = $filePathHelper;
         $this->guzzleClient   = $guzzleClient;
+        $this->mimeTypeHelper = $mimeTypeHelper;
     }
 
 
@@ -117,11 +126,11 @@ class ImageManipulationService
      *
      * @param UploadedFile $file
      * @param string       $path
+     * @param string|null  $mimeType
      *
      * @return string
-     * @throws ImageUploadException
      */
-    public function storeUploadedFile(UploadedFile $file, string $path): string
+    public function storeUploadedFile(UploadedFile $file, string $path, string $mimeType = null): string
     {
         // Get stream to the file contents
         $stream = $this->getStreamFromFile($file->getRealPath());
@@ -132,7 +141,7 @@ class ImageManipulationService
             $file->getClientOriginalExtension());
 
         // Store
-        $this->storeFileFromStream($filePath, $stream);
+        $this->storeFileFromStream($filePath, $stream, $mimeType);
 
         return $filePath;
     }
@@ -141,13 +150,14 @@ class ImageManipulationService
     /**
      * Stores the file from the specified URL, using the specified path and filename
      *
-     * @param string $url
-     * @param string $path
-     * @param string $filename
+     * @param string      $url
+     * @param string      $path
+     * @param string      $filename
+     * @param string|null $mimeType
      *
      * @return string
      */
-    public function storeUrlFile($url, string $path, string $filename): string
+    public function storeUrlFile($url, string $path, string $filename, string $mimeType = null): string
     {
         // Get stream to the file contents
         $stream = $this->getStreamFromUrl($url);
@@ -158,7 +168,7 @@ class ImageManipulationService
             $this->filePathHelper->getFileExtension($filename));
 
         // Store
-        $this->storeFileFromStream($filePath, $stream);
+        $this->storeFileFromStream($filePath, $stream, $mimeType);
 
         return $filePath;
     }
@@ -228,15 +238,26 @@ class ImageManipulationService
     /**
      * Attempts to store the specified stream as a file at the specified file path
      *
-     * @param string   $filePath
-     * @param resource $stream
+     * @param string      $filePath
+     * @param resource    $stream
+     * @param string|null $mimeType
      *
      * @throws ImageUploadException
      */
-    private function storeFileFromStream(string $filePath, $stream)
+    private function storeFileFromStream(string $filePath, $stream, string $mimeType = null)
     {
         try {
-            $this->getFilesystem()->writeStream($filePath, $stream);
+            $config = [];
+
+            // Try to determine the MIME type if it isn't specified
+            $mimeType = $mimeType ?? $this->mimeTypeHelper->guessMimeTypeFromStream($stream);
+
+            if ($mimeType !== null) {
+                // League-specific thing, will get converted to the right options down the line
+                $config['mimetype'] = $mimeType;
+            }
+
+            $this->getFilesystem()->writeStream($filePath, $stream, $config);
             fclose($stream);
         } catch (\Exception $e) {
             throw new ImageUploadException('Failed to upload image: ' . $e->getMessage(), $e);

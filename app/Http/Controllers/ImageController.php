@@ -84,7 +84,10 @@ class ImageController extends Controller
     public function uploadImageFromFile(Request $request): RedirectResponse
     {
         $pathPrefix = $request->input('path', '');
-        $filePath   = $this->imageManipulationService->storeUploadedFile($request->file('image'), $pathPrefix);
+        $imageFile  = $request->file('image');
+        $mimeType   = $request->input('mimeType');
+
+        $filePath = $this->imageManipulationService->storeUploadedFile($imageFile, $pathPrefix, $mimeType);
 
         return $this->getRedirectResponse($filePath);
     }
@@ -99,9 +102,10 @@ class ImageController extends Controller
     {
         $pathPrefix = $request->input('path', '');
         $imageUrl   = $request->get('url');
+        $mimeType   = $request->get('mimeType');
         $filename   = $this->uriHelper->getFilename($imageUrl);
 
-        $filePath = $this->imageManipulationService->storeUrlFile($imageUrl, $pathPrefix, $filename);
+        $filePath = $this->imageManipulationService->storeUrlFile($imageUrl, $pathPrefix, $filename, $mimeType);
 
         return $this->getRedirectResponse($filePath);
     }
