@@ -16,12 +16,15 @@ class ImageUploadFromFileValidatorMiddleware
     /**
      * @var array
      */
-    private static $validMimeTypes = [
-        'image/gif',
-        'image/jpeg',
-        'image/png',
-    ];
+    private $allowedMimeTypes;
 
+    /**
+     * ImageUploadFromFileValidatorMiddleware constructor.
+     */
+    public function __construct()
+    {
+        $this->allowedMimeTypes = config('app.allowed_upload_mime_types', []);
+    }
 
     /**
      * @param Request  $request
@@ -40,20 +43,19 @@ class ImageUploadFromFileValidatorMiddleware
             throw new ImageUploadException('Image could not be uploaded, please try again');
         }
 
-        if (!in_array($request->file('image')->getMimeType(), self::$validMimeTypes)) {
+        if (!in_array($request->file('image')->getMimeType(), config('app.allowed_upload_mime_types'))) {
             throw new ImageUploadException('Invalid MIME type, valid types are: ' . $this->getValidMimeTypesString());
         }
 
         return $next($request);
     }
 
-
     /**
      * @return string
      */
     private function getValidMimeTypesString(): string
     {
-        return implode(', ', self::$validMimeTypes);
+        return implode(', ', $this->allowedMimeTypes);
     }
 
 }
