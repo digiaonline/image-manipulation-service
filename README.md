@@ -48,6 +48,7 @@ following:
 
 * A `path` field containing an optional path for the file (e.g. `articles/summer`)
 * An `image` file field containing the image to be uploaded
+* (optional) A `mimeType` field containing the MIME type of the uploaded file
 
 Here's an example HTML form that fulfills the requirements:
 
@@ -59,6 +60,9 @@ Here's an example HTML form that fulfills the requirements:
   <p>
     <label>Image: <input type="file" name="image"/></label>
   </p>
+  <!--<p>
+    <label>MIME type: <input type="text" name="mimeType"/></label>
+  </p>-->
   <p>
     <input type="submit" name="submit" value="Upload image"/>
   </p>
@@ -74,6 +78,7 @@ following:
 
 * A `path` field containing an optional path for the file (e.g. `articles/summer`)
 * A `url` field containing the URL to the image
+* (optional) A `mimeType` field containing the MIME type of the image
 
 Here's an example HTML form that fulfills the requirements:
 
@@ -85,6 +90,9 @@ Here's an example HTML form that fulfills the requirements:
   <p>
     <label>Image: <input type="file" name="image"/></label>
   </p>
+  <!--<p>
+    <label>MIME type: <input type="text" name="mimeType"/></label>
+  </p>-->
   <p>
     <input type="submit" name="submit" value="Upload image"/>
   </p>
