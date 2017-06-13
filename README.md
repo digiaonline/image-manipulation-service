@@ -17,7 +17,7 @@ to abstract all of that.
 * Run `composer install` to install all dependencies
 * Copy the files from `examples/config/` to the `config/` directory
 * Edit the configuration to suit your needs. Examples of things you might want to change are where uploaded images get 
-stored.
+stored and which image driver to use (`gd` or `imagick`, the latter is required if you need SVG manipulation support).
 * Copy `.env.example` to `.env`. If you're going to be using Amazon S3 to store your images you should add the missing 
 credentials 
  

@@ -93,7 +93,10 @@ class ImageManipulationService
      */
     public function getOriginalImageResponse(string $path): Response
     {
-        return $this->glideServer->getImageResponse($path, []);
+        // Bypass Glide and return the image from the source filesystem directly
+        $sourceFilesystem = $this->glideServer->getSource();
+
+        return $this->glideServer->getResponseFactory()->create($sourceFilesystem, $path);
     }
 
 
