@@ -7,6 +7,7 @@ use League\Flysystem\FilesystemInterface;
 use League\Glide\Server;
 use Nord\ImageManipulationService\Exceptions\ImageUploadException;
 use Nord\ImageManipulationService\Helpers\FilePathHelper;
+use Nord\ImageManipulationService\Helpers\MimeTypeHelper;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,6 +38,11 @@ class ImageManipulationService
      */
     private $guzzleClient;
 
+    /**
+     * @var MimeTypeHelper
+     */
+    private $mimeTypeHelper;
+
 
     /**
      * ImageManipulationService constructor.
@@ -45,17 +51,20 @@ class ImageManipulationService
      * @param PresetService  $presetService
      * @param FilePathHelper $filePathHelper
      * @param GuzzleClient   $guzzleClient
+     * @param MimeTypeHelper $mimeTypeHelper
      */
     public function __construct(
         Server $glideServer,
         PresetService $presetService,
         FilePathHelper $filePathHelper,
-        GuzzleClient $guzzleClient
+        GuzzleClient $guzzleClient,
+        MimeTypeHelper $mimeTypeHelper
     ) {
         $this->glideServer    = $glideServer;
         $this->presetService  = $presetService;
         $this->filePathHelper = $filePathHelper;
         $this->guzzleClient   = $guzzleClient;
+        $this->mimeTypeHelper = $mimeTypeHelper;
     }
 
 
@@ -236,7 +245,17 @@ class ImageManipulationService
     private function storeFileFromStream(string $filePath, $stream)
     {
         try {
-            $this->getFilesystem()->writeStream($filePath, $stream);
+            $config = [];
+
+            // Determine the MIME type
+            $mimeType = $this->mimeTypeHelper->guessMimeTypeFromStream($stream);
+
+            if ($mimeType !== null) {
+                // League-specific thing, will get converted to the right options down the line
+                $config['mimetype'] = $mimeType;
+            }
+
+            $this->getFilesystem()->writeStream($filePath, $stream, $config);
             fclose($stream);
         } catch (\Exception $e) {
             throw new ImageUploadException('Failed to upload image: ' . $e->getMessage(), $e);
