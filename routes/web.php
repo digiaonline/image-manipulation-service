@@ -1,5 +1,10 @@
 <?php
 
+// Health check
+$app->get('/health', function() {
+    return 'OK';
+});
+
 // Shows the dashboard, if enabled
 $app->get('/', [
     'middleware' => \Nord\ImageManipulationService\Http\Middleware\DashboardPageEnabledMiddleware::class,
@@ -18,11 +23,6 @@ $app->get('/{path:.*}', [
     'middleware' => \Nord\ImageManipulationService\Http\Middleware\ServeImageAuthenticationMiddleware::class,
     'uses'       => 'ImageController@serveImage',
 ]);
-
-// Health check
-$app->get('/health', function() {
-    return 'OK';
-});
 
 // Stores an uploaded image to the source filesystem, then returns the path to it
 $app->post('/upload', [
