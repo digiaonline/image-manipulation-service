@@ -6,7 +6,6 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "ext-gd": "*",
         "laravel/lumen-framework": "5.4.*",
         "vlucas/phpdotenv": "~2.2",
         "league/glide-laravel": "^1.0",
@@ -20,6 +19,10 @@
         "fzaninotto/faker": "~1.4",
         "phpunit/phpunit": "~5.0",
         "mockery/mockery": "~0.9"
+    },
+    "suggest": {
+        "ext-gd": "Needed to manipulate images using the gd driver",
+        "ext-imagick": "Needed to manipulate images using the imagick driver"
     },
     "autoload": {
         "psr-4": {
