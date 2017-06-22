@@ -1,9 +1,9 @@
 <?php
 
 // Health check
-$app->get('/health', function() {
-    return 'OK';
-});
+$app->get('/health', [
+    'uses' => 'HealthCheckController@index',
+]);
 
 // Shows the dashboard, if enabled
 $app->get('/', [
