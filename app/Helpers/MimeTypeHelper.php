@@ -3,6 +3,7 @@
 namespace Nord\ImageManipulationService\Helpers;
 
 use League\Flysystem\Util;
+use Nord\ImageManipulationService\Exceptions\BaseException;
 
 /**
  * Class MimeTypeHelper
@@ -37,10 +38,10 @@ class MimeTypeHelper
             if ($fileContents !== false) {
                 $mimeType = Util::guessMimeType($filePath, file_get_contents($filePath));
             }
-
-            // Remove the temporary file we just created
-            unlink($filePath);
         }
+
+        // Remove the temporary file we just created
+        unlink($filePath);
 
         return $mimeType;
     }
@@ -65,10 +66,18 @@ class MimeTypeHelper
 
     /**
      * @return string
+     *
+     * @throws BaseException
      */
     private function getTemporaryFilePath(): string
     {
-        return tempnam(sys_get_temp_dir(), 'ImageManipulationService');
+        $filePath = tempnam(sys_get_temp_dir(), 'ImageManipulationService');
+
+        if ($filePath === false) {
+            throw new BaseException('Failed to create temporary file');
+        }
+
+        return $filePath;
     }
 
 }
