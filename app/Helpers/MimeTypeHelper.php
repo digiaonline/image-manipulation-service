@@ -24,6 +24,8 @@ class MimeTypeHelper
      */
     public function guessMimeTypeFromStream($stream)
     {
+        $mimeType = null;
+
         // Read the header from the stream into a temporary file
         $header   = $this->readAndRewind($stream);
         $filePath = $this->getTemporaryFilePath();
@@ -33,11 +35,14 @@ class MimeTypeHelper
             $fileContents = file_get_contents($filePath);
 
             if ($fileContents !== false) {
-                return Util::guessMimeType($filePath, file_get_contents($filePath));
+                $mimeType = Util::guessMimeType($filePath, file_get_contents($filePath));
             }
+
+            // Remove the temporary file we just created
+            unlink($filePath);
         }
 
-        return null;
+        return $mimeType;
     }
 
 
