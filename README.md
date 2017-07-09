@@ -9,7 +9,7 @@ to abstract all of that.
 
 ## Requirements
 
-* PHP >= 7.0 with `ext-gd`
+* PHP >= 7.0 with `ext-gd` or `ext-imagick`
 * Composer
 
 ## Installation
@@ -32,7 +32,8 @@ The image returned by the service can be manipulated by using query parameters. 
 preset (e.g. `?preset=foo`) or custom parameters (e.g. `?w=400&h=300`). If no query parameters are specified, the 
 original image is returned.
 
-The service doesn't store manipulated images anywhere, they are always generated on the fly.
+The service doesn't store manipulated images anywhere, they are always generated on the fly. The idea is that you put 
+a CDN in front of it so that manipulated images become cached after they're generated for the first time.
 
 ## Usage
 
@@ -98,6 +99,11 @@ Here's an example HTML form that fulfills the requirements:
   </p>
 </form>
 ```
+
+### MIME type handling
+
+When you upload an image to the service you can specify the MIME type of the file. If you do not know the MIME type 
+(which is often the case when uploading an image by URL), the service will attempt to guess it.
 
 ### Authenticating upload requests
 
