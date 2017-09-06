@@ -9,7 +9,7 @@ to abstract all of that.
 
 ## Requirements
 
-* PHP >= 7.0 with `ext-gd` or `ext-imagick`
+* PHP >= 7.1 with `ext-gd` or `ext-imagick`
 * Composer
 
 ## Installation

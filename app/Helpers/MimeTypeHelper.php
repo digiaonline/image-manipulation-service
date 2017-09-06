@@ -23,7 +23,7 @@ class MimeTypeHelper
      *
      * @return string|null the guessed MIME type, or null if not guessable
      */
-    public function guessMimeTypeFromStream($stream)
+    public function guessMimeTypeFromStream($stream): ?string
     {
         $mimeType = null;
 

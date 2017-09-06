@@ -51,7 +51,7 @@ class UriHelper
      *
      * @throws UriException if the URL cannot be parsed
      */
-    public function tryParse(string $url)
+    public function tryParse(string $url): void
     {
         $parser = new Parser();
         $parser($url);

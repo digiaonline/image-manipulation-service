@@ -47,7 +47,12 @@ class UploadAuthenticationMiddleware
      *
      * @return bool
      */
-    private function credentialsMatch($username, $password, $requestUsername, $requestPassword): bool
+    private function credentialsMatch(
+        ?string $username,
+        ?string $password,
+        ?string $requestUsername,
+        ?string $requestPassword
+    ): bool
     {
         return $username !== null && $password !== null &&
             $requestUsername === $username && $requestPassword === $password;

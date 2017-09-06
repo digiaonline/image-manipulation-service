@@ -73,7 +73,7 @@ class ImageManipulationService
      *
      * @return string|null
      */
-    public function getCdnBaseUrl()
+    public function getCdnBaseUrl(): ?string
     {
         $url = env('CDN_BASEURL');
 
@@ -130,7 +130,7 @@ class ImageManipulationService
      *
      * @return string
      */
-    public function storeUploadedFile(UploadedFile $file, string $path, string $mimeType = null): string
+    public function storeUploadedFile(UploadedFile $file, string $path, ?string $mimeType = null): string
     {
         // Get stream to the file contents
         $stream = $this->getStreamFromFile($file->getRealPath());
@@ -157,7 +157,7 @@ class ImageManipulationService
      *
      * @return string
      */
-    public function storeUrlFile($url, string $path, string $filename, string $mimeType = null): string
+    public function storeUrlFile($url, string $path, string $filename, ?string $mimeType = null): string
     {
         // Get stream to the file contents
         $stream = $this->getStreamFromUrl($url);
@@ -244,7 +244,7 @@ class ImageManipulationService
      *
      * @throws ImageUploadException
      */
-    private function storeFileFromStream(string $filePath, $stream, string $mimeType = null)
+    private function storeFileFromStream(string $filePath, $stream, ?string $mimeType = null)
     {
         try {
             $config = [];
