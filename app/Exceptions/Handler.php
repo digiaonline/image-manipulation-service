@@ -5,6 +5,7 @@ namespace Nord\ImageManipulationService\Exceptions;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use League\Flysystem\FileNotFoundException;
@@ -40,7 +41,17 @@ class Handler extends ExceptionHandler
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
 
-        return parent::render($request, $e);
+        $data = [
+            'exception' => get_class($e),
+            'message'   => $e->getMessage(),
+            'code'      => $e->getCode(),
+        ];
+
+        if (env('APP_DEBUG', false)) {
+            $data['trace'] = $e->getTrace();
+        }
+
+        return new JsonResponse($data);
     }
 
 }
