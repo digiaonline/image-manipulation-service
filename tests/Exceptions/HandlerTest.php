@@ -2,8 +2,10 @@
 
 namespace Nord\ImageManipulationService\Tests\Exceptions;
 
+use League\Flysystem\FileNotFoundException;
 use Nord\ImageManipulationService\Exceptions\Handler;
 use Nord\ImageManipulationService\Tests\TestCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class HandlerTest
@@ -12,7 +14,23 @@ use Nord\ImageManipulationService\Tests\TestCase;
 class HandlerTest extends TestCase
 {
 
-    public function testHandle()
+    /**
+     * Tests that the exception is converted
+     */
+    public function testFileNotFoundException()
+    {
+        $handler  = new Handler();
+        $response = $handler->render(null, new FileNotFoundException('/'));
+
+        $data = json_decode((string)$response->getContent(), true);
+
+        $this->assertEquals(NotFoundHttpException::class, $data['exception']);
+    }
+
+    /**
+     * Tests that exceptions are rendered as JSON
+     */
+    public function testHandleRender()
     {
         $handler  = new Handler();
         $response = $handler->render(null, new \InvalidArgumentException('The message', 23));
