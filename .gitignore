@@ -7,3 +7,4 @@
 Vagrantfile
 composer.phar
 /public/coverage
+/build/logs/clover.xml
