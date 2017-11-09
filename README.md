@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/digiaonline/image-manipulation-service.svg?branch=master)](https://travis-ci.org/digiaonline/image-manipulation-service) 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/digiaonline/image-manipulation-service/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/digiaonline/image-manipulation-service/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/digiaonline/image-manipulation-service/badge.svg?branch=master)](https://coveralls.io/github/digiaonline/image-manipulation-service?branch=master)
 
 This is a micro-service that aims to simplify image manipulation logic often needed when developing web applications. 
 Instead of having to perform resizing, cropping and storing of manipulated images an application can use this service 
