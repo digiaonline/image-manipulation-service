@@ -58,7 +58,21 @@ class Handler extends ExceptionHandler
             $data['trace'] = $e->getTrace();
         }
 
-        return new JsonResponse($data);
+        return new JsonResponse($data, $this->determineStatusCode($e));
+    }
+
+    /**
+     * @param Exception $e
+     *
+     * @return int
+     */
+    private function determineStatusCode(\Exception $e): int
+    {
+        if ($e instanceof HttpException) {
+            return $e->getStatusCode();
+        }
+
+        return 500;
     }
 
 }

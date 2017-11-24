@@ -28,6 +28,18 @@ class HandlerTest extends TestCase
         $data = json_decode((string)$response->getContent(), true);
 
         $this->assertEquals(NotFoundHttpException::class, $data['exception']);
+        $this->assertEquals(404, $response->getStatusCode());
+    }
+
+    /**
+     * Tests that HTTP 500 is returned normally when an exception is rendered
+     */
+    public function testNormalException()
+    {
+        $handler  = new Handler();
+        $response = $handler->render(null, new \InvalidArgumentException('Some error'));
+
+        $this->assertEquals(500, $response->getStatusCode());
     }
 
     /**
