@@ -2,7 +2,6 @@
 
 namespace Nord\ImageManipulationService\Tests\Exceptions;
 
-use League\Flysystem\FileNotFoundException;
 use Nord\ImageManipulationService\Exceptions\Handler;
 use Nord\ImageManipulationService\Tests\TestCase;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -15,16 +14,32 @@ class HandlerTest extends TestCase
 {
 
     /**
-     * Tests that the exception is converted
+     * Tests that some exception is converted and that the correct HTTP status code is used
+     *
+     * @dataProvider fileNotFoundExceptionProvider
+     *
+     * @param \Exception $e
      */
-    public function testFileNotFoundException()
+    public function testFileNotFoundException(\Exception $e)
     {
         $handler  = new Handler();
-        $response = $handler->render(null, new FileNotFoundException('/'));
+        $response = $handler->render(null, $e);
 
         $data = json_decode((string)$response->getContent(), true);
 
         $this->assertEquals(NotFoundHttpException::class, $data['exception']);
+        $this->assertEquals(404, $response->getStatusCode());
+    }
+
+    /**
+     * Tests that HTTP 500 is returned normally when an exception is rendered
+     */
+    public function testNormalException()
+    {
+        $handler  = new Handler();
+        $response = $handler->render(null, new \InvalidArgumentException('Some error'));
+
+        $this->assertEquals(500, $response->getStatusCode());
     }
 
     /**
@@ -44,6 +59,17 @@ class HandlerTest extends TestCase
         ], $data);
 
         $this->assertEquals(env('APP_DEBUG'), array_key_exists('trace', $data));
+    }
+
+    /**
+     * @return array
+     */
+    public function fileNotFoundExceptionProvider(): array
+    {
+        return [
+            [new \League\Flysystem\FileNotFoundException('/')],
+            [new \League\Glide\Filesystem\FileNotFoundException('/')],
+        ];
     }
 
 }

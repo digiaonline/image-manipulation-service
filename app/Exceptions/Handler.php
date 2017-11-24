@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
-use League\Flysystem\FileNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -32,12 +31,20 @@ class Handler extends ExceptionHandler
     ];
 
     /**
+     * @var array exceptions that should be mapped to NotFoundHttpException
+     */
+    protected $notFoundExceptions = [
+        \League\Flysystem\FileNotFoundException::class,
+        \League\Glide\Filesystem\FileNotFoundException::class,
+    ];
+
+    /**
      * @inheritdoc
      */
     public function render($request, Exception $e)
     {
-        // Change FileNotFoundException to NotFoundHttpException so we get the correct HTTP status code 
-        if ($e instanceof FileNotFoundException) {
+        // Change some exceptions to NotFoundHttpException so we get the correct HTTP status code
+        if (in_array(get_class($e), $this->notFoundExceptions)) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
 
@@ -51,7 +58,21 @@ class Handler extends ExceptionHandler
             $data['trace'] = $e->getTrace();
         }
 
-        return new JsonResponse($data);
+        return new JsonResponse($data, $this->determineStatusCode($e));
+    }
+
+    /**
+     * @param Exception $e
+     *
+     * @return int
+     */
+    private function determineStatusCode(\Exception $e): int
+    {
+        if ($e instanceof HttpException) {
+            return $e->getStatusCode();
+        }
+
+        return 500;
     }
 
 }
