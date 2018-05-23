@@ -137,7 +137,7 @@ class ImageManipulationService
 
         // Determine the path to the file
         $filePath = $this->filePathHelper->determineFilePath($path,
-            $file->getClientOriginalName(),
+            (string)$file->getClientOriginalName(),
             $file->getClientOriginalExtension());
 
         // Store
@@ -227,8 +227,13 @@ class ImageManipulationService
         // Try to grab the response body stream as a resource
         try {
             $response = $this->guzzleClient->get($url);
+            $resource = $response->getBody()->detach();
 
-            return $response->getBody()->detach();
+            if ($resource === null) {
+                throw new \RuntimeException('Could not open resource');
+            }
+
+            return $resource;
         } catch (\Exception $e) {
             throw new ImageUploadException('Failed to retrieve image from URL: ' . $e->getMessage(), $e);
         }

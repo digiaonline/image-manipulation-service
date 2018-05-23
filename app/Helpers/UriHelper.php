@@ -24,9 +24,9 @@ class UriHelper
         $originalUri = HttpUri::createFromString($originalUrl);
         $targetUri   = HttpUri::createFromString($targetBaseUrl);
 
-        return $originalUri->withScheme($targetUri->getScheme())
-                           ->withHost($targetUri->getHost())
-                           ->withPort($targetUri->getPort());
+        return (string)$originalUri->withScheme($targetUri->getScheme())
+                                   ->withHost($targetUri->getHost())
+                                   ->withPort($targetUri->getPort());
     }
 
 
