@@ -33,5 +33,10 @@
         "psr-4": {
             "Nord\\ImageManipulationService\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": [
+            "phpunit"
+        ]
     }
 }
