@@ -142,8 +142,8 @@ directory and browsing to `http://localhost:8080/`.
 
 ### Testing
 
-You can run the tests by running `composer test`. If you have XDebug installed you can see the code coverage 
-report on by opening `public/coverage/index.html` locally in your browser.
+You can run the tests and static analysis by running `composer test`. If you have XDebug installed you can see the code 
+coverage report on by opening `public/coverage/index.html` locally in your browser.
 
 You can also use the supplied Postman collection to test image upload requests. Just import the collection and add the 
 following variables to your environment:
