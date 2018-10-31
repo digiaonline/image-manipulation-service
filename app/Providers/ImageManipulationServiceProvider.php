@@ -24,9 +24,19 @@ class ImageManipulationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(ImageManipulationService::class, function (Application $app) {
+            // Build dependencies
+            $glideServer    = $app->make(Server::class);
+            $presetService  = $app->make(PresetService::class);
+            $filePathHelper = $app->make(FilePathHelper::class);
+            $mimeTypeHelper = $app->make(MimeTypeHelper::class);
+            $guzzleClient   = new Client([
+                // Don't wait forever for connections to succeed
+                'connect_timeout' => env('HTTP_CLIENT_CONNECT_TIMEOUT_SECONDS', 10),
+            ]);
+
             return new ImageManipulationService(
-                $app->make(Server::class), $app->make(PresetService::class), $app->make(FilePathHelper::class),
-                new Client(), $app->make(MimeTypeHelper::class));
+                $glideServer, $presetService, $filePathHelper,
+                $guzzleClient, $mimeTypeHelper);
         });
     }
 
